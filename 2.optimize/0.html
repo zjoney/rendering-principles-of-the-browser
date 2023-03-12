@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+       
+        // function reflow() {
+          
+        //     let el = document.getElementById('app');
+        //     let node = document.createElement('h1');
+        //     node.innerHTML = 'hello';
+        //     el.appendChild(node);
+        //     // 强制同步布局
+        //     console.log(app.offsetTop); // 获取位置就会导致 重排 （重新布局）
+
+        // }
+        // window.addEventListener('load', function() {
+        //         reflow();
+        // });
+
+        console.log(app.offsetTop); // 不停的再触发布局
+        function reflow() {
+            let el = document.getElementById('app');
+            let node = document.createElement('h1');
+            node.innerHTML = 'hello';
+            el.appendChild(node);
+            // 强制同步布局
+        }
+        window.addEventListener('load', function() {
+            for (let i = 0; i < 100; i++) {
+                reflow();
+            }
+        });
+    </script>
+</body>
+
+</html>
