@@ -1,5 +1,3 @@
-# rendering-principles-of-the-browser
-
 - Use HTTP/2 与HTTP/1.1相比，HTTP/2提供了许多优点，包括二进制报头和多路复用
 - Defer offscreen images 考虑在所有关键资源加载完毕后延迟加载屏幕外和隐藏的图像
 - Serve images in next-gen formats 提供下一代格式的图像
