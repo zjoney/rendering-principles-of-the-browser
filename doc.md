@@ -107,7 +107,7 @@
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/000a09f8e6c742cfae57f0196a5b79e5~tplv-k3u1fbpfcp-zoom-1.image)
 ### 1.基于TCP发送HTTP请求
 
-```
+```js
 const net = require('net')
 class HTTPRequest {
     constructor(options) {
@@ -162,63 +162,9 @@ async function request() {
 request();
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-24  
-25  
-26  
-27  
-28  
-29  
-30  
-31  
-32  
-33  
-34  
-35  
-36  
-37  
-38  
-39  
-40  
-41  
-42  
-43  
-44  
-45  
-46  
-47  
-48  
-49  
-50  
-51  
-52  
-
-
 ### 2.解析响应结果
 
-```
+```js
 const parser = new HTTPParser()
 socket.on('data',function(data){
     // data 为发送请求后返回的结果
