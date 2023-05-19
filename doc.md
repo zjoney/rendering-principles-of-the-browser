@@ -174,20 +174,9 @@ socket.on('data',function(data){
     }
 });
 ```
-
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
-
 ### 3.解析HTML
 
-```
+```js
 let stack = [{ type: 'document', children: [] }];
 const parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
@@ -218,39 +207,9 @@ const parser = new htmlparser2.Parser({
 parser.end(body)
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-24  
-25  
-26  
-27  
-28  
-
-
 ### 4.解析`CSS`
 
-```
+```js
 const cssRules = [];
 const css = require('css');
 function parserCss(text) {
@@ -259,15 +218,7 @@ function parserCss(text) {
 }
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-
-
-```
+```js
 const parser = new htmlparser2.Parser({
     onclosetag(tagname) {
         let parent = stack[stack.length - 1];
@@ -279,20 +230,9 @@ const parser = new htmlparser2.Parser({
 });
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-
-
 ### 5.计算样式
 
-```
+```js
 function computedCss(element) {
     let attrs = element.attributes; // 获取元素属性
     element.computedStyle = {}; // 计算样式
@@ -309,25 +249,9 @@ function computedCss(element) {
 }
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-
-
 ### 6.布局绘制
 
-```
+```js
 function layout(element) {
     // 计算位置 -> 绘制
     if (Object.keys(element.computedStyle).length != 0) {
@@ -344,23 +268,6 @@ function layout(element) {
     }
 }
 ```
-
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-
 
 ### 总结：DOM如何生成的
 
@@ -393,7 +300,7 @@ function layout(element) {
 | `LCP`  | `Largest Contentful Paint`(最大内容渲染) | 在`viewport`中最大的页面元素加载的时间                       |
 | `FID`  | `First Input Delay`(首次输入延迟)        | 用户首次和页面交互(单击链接，点击按钮等)到页面响应交互的时间                |
 
-```
+```js
 <div style="background:red;height:100px;width:100px"></div>
 <h1 elementtiming="meaningful">珠峰架构</h1>
 <script>
@@ -452,75 +359,15 @@ function layout(element) {
 </script>
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-24  
-25  
-26  
-27  
-28  
-29  
-30  
-31  
-32  
-33  
-34  
-35  
-36  
-37  
-38  
-39  
-40  
-41  
-42  
-43  
-44  
-45  
-46  
-47  
-48  
-49  
-50  
-51  
-52  
-53  
-54  
-55  
-56  
-
-
 ## 五.网络优化策略
 
 -   减少HTTP请求数，合并`JS`、`CSS`,合理内嵌`CSS`、`JS`
 
 -   合理设置服务端缓存，提高服务器处理速度。 (强制缓存、对比缓存)
 
-    ```
+    ```js
     // Expires/Cache-Control   Etag/if-none-match/last-modified/if-modified-since
     ```
-
-    1  
 
 
 -   避免重定向，重定向会降低响应速度 (301,302)
@@ -533,20 +380,16 @@ function layout(element) {
 
 -   `gzip`压缩优化 对传输资源进行体积压缩 (`html`,`js`,`css`)
 
-    ```
+    ```js
     // Content-Encoding: gzip
     ```
-
-    1  
 
 
 -   加载数据优先级 : `preload`（预先请求当前页面需要的资源） `prefetch`（将来页面中使用的资源） 将数据缓存到HTTP缓存中
 
-    ```
+    ```js
     <link rel="preload" href="style.css" as="style">
     ```
-
-    1  
 
 
 ## 六.关键渲染路径
@@ -561,7 +404,7 @@ function layout(element) {
 
 **JavaScript强制将计算样式和布局操作提前到当前的任务中**
 
-```
+```js
 <div id="app"></div>
 <script>
     function reflow() {
@@ -576,25 +419,11 @@ function layout(element) {
 </script>
 ```
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-
-
 ### 2.布局抖动（layout thrashing）问题
 
 在一段`js`代码中，反复执行布局操作，就是布局抖动
 
-```
+```js
 function reflow(){
     let el = document.getElementById('app');
     let node = document.createElement('h1');
@@ -609,21 +438,6 @@ window.addEventListener('load',function(){
     }
 });
 ```
-
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-
 
 ### 3.减少回流和重绘
 
@@ -654,20 +468,16 @@ window.addEventListener('load',function(){
 
 -   原生的`loading:lazy` 图片懒加载
 
-    ```
+    ```js
     <img loading="lazy" src="./images/1.jpg" width="300" height="450" />
     ```
-
-    1  
 
 
 -   不同环境下，加载不同尺寸和像素的图片
 
-    ```
+    ```js
     <img src="./images/1.jpg" sizes="(max-width:500px) 100px,(max-width:600px) 200px"  srcset="./images/1.jpg 100w, ./images/3.jpg 200w">
     ```
-
-    1  
 
 
 -   对于较大的图片可以考虑采用渐进式图片
@@ -691,11 +501,9 @@ window.addEventListener('load',function(){
 
 1.  避免使用`CSS`表达式，`CSS`表达式会频繁求值， 当滚动页面，或者移动鼠标时都会重新计算 (`IE6,7`)
 
-    ```
+    ```js
     background-color: expression( (new Date()).getHours()%2 ? "red" : "yellow" );
     ```
-
-    1  
 
 
 1.  删除空行、注释、减少无意义的单位、`css`进行压缩
@@ -704,12 +512,9 @@ window.addEventListener('load',function(){
 
 1.  添加媒体字段，只加载有效的`css`文件
 
-    ```
+    ```js
     <link href="index.css" rel="stylesheet" media="screen and (min-width:1024px)" /> 
     ```
-
-    1  
-
 
 1.  `CSS contain`属性,将元素进行隔离
 
@@ -729,7 +534,7 @@ window.addEventListener('load',function(){
 
 1.  `IntersectionObserver`
 
-    ```
+    ```js
     const observer = new IntersectionObserver(function(changes) { 
         changes.forEach(function(element, index) {
             if (element.intersectionRatio > 0) {
@@ -747,22 +552,6 @@ window.addEventListener('load',function(){
     initObserver();
     ```
 
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-
 
 1.  虚拟滚动 `vertual-scroll-list`
 
@@ -776,7 +565,7 @@ window.addEventListener('load',function(){
 
 ### 5.字体优化
 
-```
+```js
 @font-face {
     font-family: "Bmy";
     src: url("./HelloQuincy.ttf");
@@ -790,19 +579,6 @@ body {
     font-family: "Bmy"
 }
 ```
-
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
 
 
 `FOUT(Flash Of Unstyled Text) `等待一段时间，如果没加载完成，先显示默认。加载后再进行切换。
@@ -827,7 +603,7 @@ body {
 
 -   `localStorage`: chrome下最大存储`5M`, 除非手动清除，否则一直存在。利用`localStorage`存储静态资源
 
-    ```
+    ```js
     function cacheFile(url) {
         let fileContent = localStorage.getItem(url);
         if (fileContent) {
@@ -846,29 +622,11 @@ body {
     cacheFile('/index.js');
     ```
 
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-
-
 -   `sessionStorage`: 会话级别存储，可用于页面间的传值
 
 -   `indexDB`:浏览器的本地数据库 （基本无上限）
 
-    ```
+    ```js
     let request = window.indexedDB.open('myDatabase');
     request.onsuccess = function(event){
         let db = event.target.result;
@@ -887,24 +645,6 @@ body {
     }
     ```
 
-    1  
-    2  
-    3  
-    4  
-    5  
-    6  
-    7  
-    8  
-    9  
-    10  
-    11  
-    12  
-    13  
-    14  
-    15  
-    16  
-
-
 ## 十.增加体验 `PWA（Progressive Web App）`
 
 `webapp`用户体验差（不能离线访问），用户粘性低（无法保存入口），`pwa`就是为了解决这一系列问题,让`webapp`具有快速，可靠，安全等特点
@@ -916,13 +656,10 @@ body {
 
 ## 十一.`LightHouse`使用
 
-```
+```js
 npm install lighthouse -g
 lighthouse http://www.taobao.com
 ```
-
-1  
-2  
 
 
 > 可以根据lighthouse中的建议进行页面的优化
